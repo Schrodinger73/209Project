@@ -1,0 +1,19 @@
+---
+title: "209 Project"
+output: pdf_document
+date: ""
+---
+
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+dat <- read.csv("data.csv")
+suicide <- read.csv("suicide.csv")
+```
+
+```{r}
+boxplot(suicides.100k.pop ~ generation, data = suicide)
+```
