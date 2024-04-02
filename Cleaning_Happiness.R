@@ -18,5 +18,3 @@ v <- country_info(countries = D$Country, fields = "continents")
 Continent <- v$continents
 D$Continent <- Continent
 write.csv(D, "Happiness_cleaned.csv")
-D
-boxplot(Happiness.Score ~ Continent, data = D)
