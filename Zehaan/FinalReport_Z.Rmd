@@ -106,3 +106,14 @@ for(cont in continents){
   legend("bottomright", "Line of Best Fit", fill = "red")
 }
 ```
+
+```{r, echo=FALSE}
+
+dat.happy <- data.happiness[which(data.happiness$Continent == "Europe"),]
+plot(dat.happy$Economy..GDP.per.Capita., dat.happy$Health..Life.Expectancy.,
+     xlab = "GDP per Capita",
+     ylab = "Health Index",
+     main = "Europe")
+abline(lm(dat.happy$Health..Life.Expectancy.~dat.happy$Economy..GDP.per.Capita.),col = "red")
+legend("bottomright", "Line of Best Fit", fill = "red")
+```
