@@ -14,7 +14,7 @@ suicides <- split(suicide.2 , suicide.2$country)
 unique(suicide$country)
 
 time <- ts(data = suicides$Albania$suicide.tot.normal , start = min(suicides$Albania$year) , end = max(suicides$Albania$year))
-
+time_series_plots <- c()
 
 ## all ts plots are stored by country name in time_series_plots object, save with write() if needed
 
