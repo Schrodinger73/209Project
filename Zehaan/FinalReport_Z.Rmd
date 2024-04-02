@@ -34,7 +34,7 @@ We primarily use three data sets for all our analysis. Namely:
     ```{r, echo=FALSE}
 
     data.urban.bliss <- read.csv("- train US new.csv")
-    head(data.suicides)
+    head(data.urban.bliss)
     ```
 
 -   [**World Happiness Report**](https://www.kaggle.com/datasets/unsdsn/world-happiness)
@@ -42,7 +42,7 @@ We primarily use three data sets for all our analysis. Namely:
     ```{r, echo=FALSE}
 
     data.happiness <- read.csv("Happiness_cleaned.csv")
-    head(data.suicides)
+    head(data.happiness)
     ```
 
 (Source: Kaggle Datasets)
@@ -77,3 +77,32 @@ Result: We observe that the GDP per capita has no correlation with the number of
 Remark: Though financial stability on an individual level cannot simply be measured by the per-capita income of a particular region, it still gives us a large scale understanding of the financial states of the residents of a particular region. With a large enough data-set, we can, hence, hope to gauge the general effect of income on the suicide rates.
 
 ##### Claim 2: Suicide Rates and Health Issues
+
+From our previous analysis, if we want to compare the trend in GDP per capita vs The happiness index, we observe the following plot.
+
+```{r, echo=FALSE}
+
+dat.happy <- data.happiness[which(data.happiness$Continent == "Europe"),]
+plot(dat.happy$Economy..GDP.per.Capita., dat.happy$Happiness.Score,
+     xlab = "GDP per Capita",
+     ylab = "Happiness Score",
+     main = "Europe")
+abline(lm(dat.happy$Happiness.Score~dat.happy$Economy..GDP.per.Capita.),col = "red")
+legend("bottomright", "Line of Best Fit", fill = "red")
+```
+
+We observe that the happiness index is strongly correlated with the GDP per capita as opposed to the trend observed in the suicide rates. We can further substantiate the result by testing this on various continents:
+
+```{r, echo=FALSE}
+
+continents <- unique(data.suicides$continent)
+for(cont in continents){
+  dat.happy <- data.happiness[which(data.happiness$Continent == cont),]
+  plot(dat.happy$Economy..GDP.per.Capita., dat.happy$Happiness.Score,
+       xlab = "GDP per Capita",
+       ylab = "Happiness Score",
+       main = cont)
+  abline(lm(dat.happy$Happiness.Score~dat.happy$Economy..GDP.per.Capita.),col = "red")
+  legend("bottomright", "Line of Best Fit", fill = "red")
+}
+```
