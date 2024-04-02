@@ -1,4 +1,4 @@
-"","Year","Country","Happiness.Rank","Happiness.Score","Economy..GDP.per.Capita.","Health..Life.Expectancy.","continent"
+"","Year","Country","Happiness.Rank","Happiness.Score","Economy..GDP.per.Capita.","Health..Life.Expectancy.","Continent"
 "1",2015,"Switzerland",1,7.587,1.39651,0.94143,"Europe"
 "2",2015,"Iceland",2,7.561,1.30232,0.94784,"Europe"
 "3",2015,"Denmark",3,7.527,1.32548,0.87464,"Europe"

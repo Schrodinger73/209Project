@@ -1,3 +1,4 @@
+library(countries)
 Five <- read.csv("Happiness/2015.csv")
 Six <- read.csv("Happiness/2016.csv")
 Seven <- read.csv("Happiness/2017.csv")
@@ -11,5 +12,9 @@ D <- rbind(Five[c("Country", "Happiness.Rank", "Happiness.Score", "Economy..GDP.
 
 Year <- c(numeric(length(Five$"Happiness.Rank")) + 2015, numeric(length(Six$"Happiness.Rank")) + 2016, numeric(length(Seven$"Happiness.Rank")) + 2017, numeric(length(Eight$"Happiness.Rank")) + 2018, numeric(length(Nine$"Happiness.Rank")) + 2019)
 D <- cbind(Year, D)
-D
+D <- D[!D$Country %in% c("North Cyprus", "Kosovo", "Somaliland region", "Somaliland Region", "Northern Cyprus"),]
+
+v <- country_info(countries = D$Country, fields = "continents")
+Continent <- v$continents
+D$Continent <- Continent
 write.csv(D, "Happiness_cleaned.csv")
