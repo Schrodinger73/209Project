@@ -10,10 +10,43 @@ library(ggplot2)
 ```
 
 ```{r}
-dat <- read.csv("data.csv")
-suicide <- read.csv("suicide.csv")
+dat <- read.csv("data_cleaned.csv")
+suicide <- read.csv("suicide_cleaned.csv")
+happy <- read.csv("Happiness_cleaned.csv")
 ```
 
 ```{r}
 boxplot(suicides.100k.pop ~ generation, data = suicide)
+```
+```{r}
+boxplot(suicides.100k.pop ~ continent, data = suicide)
+```
+```{r}
+plot(suicide$population, suicide$suicides.100k.pop)
+```
+
+
+
+```{r}
+ggplot(data = suicide, aes(x = population, y = suicides_no, col = continent)) + geom_point()
+```
+```{r}
+plot(happy)
+```
+
+
+```{r}
+Multiple.Model <- lm(Happiness.Score ~ Economy..GDP.per.Capita. + Health..Life.Expectancy., data = happy)
+Cm <- Multiple.Model$coefficients
+Y.Pred.Multiple <- Cm[1] + Cm[2]*happy$Economy..GDP.per.Capita. + Cm[2]*happy$Health..Life.Expectancy.
+Y.True <- happy$Happiness.Score
+Economy.Model <- lm(Happiness.Score ~ Economy..GDP.per.Capita., data = happy)
+Ce <- Economy.Model$coefficients
+Life.Model <- lm(Happiness.Score ~ Health..Life.Expectancy., data = happy)
+Cl <- Life.Model$coefficients
+Y.Pred.Economy <- Ce[1] + Ce[2] * happy$Economy..GDP.per.Capita.
+Y.Pred.Life <- Cl[1] + Cl[2] * happy$Health..Life.Expectancy.
+cor(Y.Pred.Multiple, Y.True)
+cor(Y.Pred.Life, Y.True)
+cor(Y.Pred.Economy, Y.True)
 ```

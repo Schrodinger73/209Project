@@ -33,7 +33,7 @@ We primarily use three data sets for all our analysis. Namely:
 
     ```{r, echo=FALSE}
 
-    data.suicides <- read.csv("- train US new.csv")
+    data.urban.bliss <- read.csv("- train US new.csv")
     head(data.suicides)
     ```
 
@@ -41,8 +41,39 @@ We primarily use three data sets for all our analysis. Namely:
 
     ```{r, echo=FALSE}
 
-    data.suicides <- read.csv("Happiness_cleaned.csv")
+    data.happiness <- read.csv("Happiness_cleaned.csv")
     head(data.suicides)
     ```
 
 (Source: Kaggle Datasets)
+
+### Analysis of the Suicide Data 
+
+##### Claim 1: Suicide Rates and Per-Capita Income
+
+For various continents, let's analyse the impact of GDP per capita on the suicide rates of the country. We do this to substantiate our intuition that financial stability in a region has a direct correlation with the number of people committing suicides in that region.
+
+```{r, echo=FALSE}
+
+continents <- unique(data.suicides$continent)
+for(cont in continents){
+  dat <- data.suicides[which(data.suicides$continent == cont),]
+  gdps <- unique(dat$gdp_per_capita)
+  gdps <- sort(gdps)
+  suicides <- numeric(length = length(gdps))
+  counter <- 1
+  
+  for(i in gdps){
+    suicides[counter] <- sum(dat$suicides.100k.pop[which(dat$gdp_per_capita == i)])
+    counter <- counter + 1
+  }
+  
+  plot(gdps,suicides,'l', xlab = "GDP per capita", ylab = "No. of Suicides", main = paste("GDP vs. Suicide Rate for", cont))
+  }
+```
+
+Result: We observe that the GDP per capita has no correlation with the number of suicides per capita.
+
+Remark: Though financial stability on an individual level cannot simply be measured by the per-capita income of a particular region, it still gives us a large scale understanding of the financial states of the residents of a particular region. With a large enough data-set, we can, hence, hope to gauge the general effect of income on the suicide rates.
+
+##### Claim 2: Suicide Rates and Health Issues
