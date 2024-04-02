@@ -1,0 +1,15 @@
+Five <- read.csv("Happiness/2015.csv")
+Six <- read.csv("Happiness/2016.csv")
+Seven <- read.csv("Happiness/2017.csv")
+Eight <- read.csv("Happiness/2018.csv")
+Nine <- read.csv("Happiness/2019.csv")
+colnames(Eight)[c(1, 3, 4, 6)] <- c("Happiness.Rank", "Happiness.Score", "Economy..GDP.per.Capita.", "Health..Life.Expectancy.")
+colnames(Nine)[c(1, 3, 4, 6)] <- c("Happiness.Rank", "Happiness.Score", "Economy..GDP.per.Capita.", "Health..Life.Expectancy.")
+#rbind(Five[c("Happiness.Rank", "Happiness.Score", "Economy..GDP.per.Capita.", "Health..Life.Expectancy.")], Six[c("Happiness.Rank", "Happiness.Score", "Economy..GDP.per.Capita.", "Health..Life.Expectancy.")], Seven[c("Happiness.Rank", "Happiness.Score", "Economy..GDP.per.Capita.", "Health..Life.Expectancy.")], Eight[c("Overall.rank", "Score", "GDP.per.capita", "Healthy.life.expectancy")], Nine[c("Overall.rank", "Score", "GDP.per.capita", "Healthy.life.expectancy")])
+D <- rbind(Five[c("Happiness.Rank", "Happiness.Score", "Economy..GDP.per.Capita.", "Health..Life.Expectancy.")], Six[c("Happiness.Rank", "Happiness.Score", "Economy..GDP.per.Capita.", "Health..Life.Expectancy.")], Seven[c("Happiness.Rank", "Happiness.Score", "Economy..GDP.per.Capita.", "Health..Life.Expectancy.")], Eight[c("Happiness.Rank", "Happiness.Score", "Economy..GDP.per.Capita.", "Health..Life.Expectancy.")], Nine[c("Happiness.Rank", "Happiness.Score", "Economy..GDP.per.Capita.", "Health..Life.Expectancy.")])
+
+
+Year <- c(numeric(length(Five$"Happiness.Rank")) + 2015, numeric(length(Six$"Happiness.Rank")) + 2016, numeric(length(Seven$"Happiness.Rank")) + 2017, numeric(length(Eight$"Happiness.Rank")) + 2018, numeric(length(Nine$"Happiness.Rank")) + 2019)
+D <- cbind(Year, D)
+D
+write.csv(D, "Happiness_cleaned.csv")
