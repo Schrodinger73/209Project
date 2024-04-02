@@ -1,0 +1,48 @@
+---
+title: "MTH209PROJECT"
+author: "Zehaan Naik, Aditya V, Viral Chitlangia"
+date: "2024-04-02"
+output:
+  html_document:
+    df_print: paged
+---
+
+### Introduction
+
+The will to end one's life is commonly believed to stem from various factors such as financial stability, health issues, physical environment, etc. One can easily find multiple data sets on the internet that accurately report the number of suicide cases reported for various prominent cities around the globe and their correlation with numerous factors such as GDP per capita and cleanliness index. These observations give us an objective understanding of these intuitive relations we wish to explore.
+
+The happiness index measures content among the residents of various world countries. This metric is calculated as a function of multiple parameters such as average life expectancy, family income, family size, etc. Various agencies differently model this index, but it heuristically represents the general content with life that people feel in places around the world.
+
+### Aim
+
+With an intuitively expected relationship between suicides and happiness, this report aims to analyze and establish this intuition based on objective metrics and actual world observations.We also aim to compare the trends between the Urban Bliss Index, calculated based on objective parameters, and the World Happiness Index, curated based on extensive surveys.
+
+### Data Analysis
+
+We primarily use three data sets for all our analysis. Namely:
+
+-   [**Suicide Rates for Prominent Countries (1990-2015)**](https://www.kaggle.com/datasets/ahmadalqawasmeh/suicide-data)
+
+    ```{r, echo=FALSE}
+
+    data.suicides <- read.csv("suicide_cleaned.csv")
+    head(data.suicides)
+    ```
+
+-   [**2024 Urban Bliss Index (2024-2027)**](https://www.kaggle.com/datasets/willianoliveiragibin/2024-urban-bliss-index)
+
+    ```{r, echo=FALSE}
+
+    data.suicides <- read.csv("- train US new.csv")
+    head(data.suicides)
+    ```
+
+-   [**World Happiness Report**](https://www.kaggle.com/datasets/unsdsn/world-happiness)
+
+    ```{r, echo=FALSE}
+
+    data.suicides <- read.csv("Happiness_cleaned.csv")
+    head(data.suicides)
+    ```
+
+(Source: Kaggle Datasets)
