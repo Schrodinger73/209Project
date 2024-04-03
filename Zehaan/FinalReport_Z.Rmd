@@ -49,7 +49,7 @@ We primarily use three data sets for all our analysis. Namely:
 
 ### Analysis of the Suicide Data 
 
-##### Claim 1: Suicide Rates and Per-Capita Income
+##### Metric 1: Per-Capita Income
 
 For various continents, let's analyse the impact of GDP per capita on the suicide rates of the country. We do this to substantiate our intuition that financial stability in a region has a direct correlation with the number of people committing suicides in that region.
 
@@ -76,7 +76,7 @@ Result: We observe that the GDP per capita has no correlation with the number of
 
 Remark: Though financial stability on an individual level cannot simply be measured by the per-capita income of a particular region, it still gives us a large scale understanding of the financial states of the residents of a particular region. With a large enough data-set, we can, hence, hope to gauge the general effect of income on the suicide rates.
 
-##### Claim 2: Suicide Rates and Health Issues
+Let's observe if the Happiness Index has some connection with financial stability or whether it shows a similar lack of trend as suicide rates.
 
 From our previous analysis, if we want to compare the trend in GDP per capita vs The happiness index, we observe the following plot.
 
@@ -106,6 +106,10 @@ for(cont in continents){
   legend("bottomright", "Line of Best Fit", fill = "red")
 }
 ```
+
+##### Metric 2: Health Conditions
+
+To understand the impact of Health conditions and life expectancy on suicide rates, we can, firstly, establish the claim that GDP per capita and Life expectancy are highly correlated.
 
 ```{r, echo=FALSE}
 
@@ -141,3 +145,17 @@ for(cont in continents){
 corr.values$`Corr Values`<-values
 corr.values
 ```
+
+This loosely establishes the fact that financially well-off people tend to have lesser health issues and consequently higher life expectancy. We, however, do not observe such a trend between suicide rates and per-capita income.
+
+##### Metric 3: Region
+
+If we look at the distribution of Happinness across various continents we come across the following plot:
+
+489 \* GDP + 1.456 \* Life Expectancy\$
+
+```{r, echo=FALSE}
+boxplot(Happiness.Score ~ Continent, data = data.happiness, col = 'coral')
+```
+
+This leads us to believe that there might be several regional and environmental factors that might also lead to a change in the happiness index and symmetrically the suicide rates of that particular region.
