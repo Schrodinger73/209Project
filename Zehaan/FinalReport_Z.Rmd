@@ -117,3 +117,27 @@ plot(dat.happy$Economy..GDP.per.Capita., dat.happy$Health..Life.Expectancy.,
 abline(lm(dat.happy$Health..Life.Expectancy.~dat.happy$Economy..GDP.per.Capita.),col = "red")
 legend("bottomright", "Line of Best Fit", fill = "red")
 ```
+
+To further substantiate the fact that we have a strong correlation between Health Index and GPD per Capita, we can look at the correlation between the fitted values and the observed values.
+
+```{r}
+cor(dat.happy$Health..Life.Expectancy.,fitted(lm(dat.happy$Health..Life.Expectancy.~dat.happy$Economy..GDP.per.Capita.))) # multiple correlation
+```
+
+As expected the correlation values are really high.
+
+```{r, echo=FALSE}
+
+Continents <- unique(data.suicides$continent)
+corr.values <- data.frame(Continents)
+values <- numeric(length = length(Continents))
+counter = 1
+for(cont in continents){
+  dat.happy <- data.happiness[which(data.happiness$Continent == cont),]
+  values[counter] <- (cor(dat.happy$Health..Life.Expectancy.,fitted(lm(dat.happy$Health..Life.Expectancy.~dat.happy$Economy..GDP.per.Capita.)))
+  )
+  counter <- counter + 1
+}
+corr.values$`Corr Values`<-values
+corr.values
+```
