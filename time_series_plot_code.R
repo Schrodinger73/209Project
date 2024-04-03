@@ -12,7 +12,7 @@ suicide.2 <- suicide %>% group_by(country.year) %>% summarise(suicide.tot.normal
 suicides <- split(suicide.2 , suicide.2$country)
 
 unique(suicide$country)
-
+summary(suicide)
 time <- ts(data = suicides$Albania$suicide.tot.normal , start = min(suicides$Albania$year) , end = max(suicides$Albania$year))
 time_series_plots <- c()
 
@@ -27,6 +27,9 @@ for(i in unique(suicide$country)){
   time_series_plots[[i]] <- plt
   
 }
+
+
+
 
 
 
