@@ -28,6 +28,7 @@ plot(suicide$population, suicide$suicides.100k.pop)
 
 
 ```{r}
+# Add this. This seems cool.
 ggplot(data = suicide, aes(x = population, y = suicides_no, col = continent)) + geom_point()
 ```
 ```{r}
@@ -36,6 +37,7 @@ plot(happy[c("Happiness.Score", "Economy..GDP.per.Capita.", "Health..Life.Expect
 
 
 ```{r}
+# This seems pretty cool.
 Multiple.Model <- lm(Happiness.Score ~ Economy..GDP.per.Capita. + Health..Life.Expectancy., data = happy)
 Cm <- Multiple.Model$coefficients
 Y.Pred.Multiple <- Cm[1] + Cm[2]*happy$Economy..GDP.per.Capita. + Cm[2]*happy$Health..Life.Expectancy.
@@ -46,16 +48,16 @@ Life.Model <- lm(Happiness.Score ~ Health..Life.Expectancy., data = happy)
 Cl <- Life.Model$coefficients
 Y.Pred.Economy <- Ce[1] + Ce[2] * happy$Economy..GDP.per.Capita.
 Y.Pred.Life <- Cl[1] + Cl[2] * happy$Health..Life.Expectancy.
-cor(Y.Pred.Multiple, Y.True)
-cor(Y.Pred.Life, Y.True)
-cor(Y.Pred.Economy, Y.True)
+mean((Y.Pred.Multiple - Y.True)^2)
+mean((Y.Pred.Life - Y.True)^2)
+mean((Y.Pred.Economy - Y.True)^2)
 ```
 ```{r}
 Cm
 ```
 We can see here that the Multiple Regression Model fits better than with just GDP per Capita or Life Expectancy.
 We get the formula of Happiness Index as\
-$Happiness Index \approx 3.123 + 1.489 * GDP + 1.456 * Life Expectancy$
+$Happiness Index \approx 3.10 + 1.51 * GDP + 1.46 * Life Expectancy$
 
 ```{r}
 boxplot(Happiness.Score ~ Continent, data = happy)
