@@ -47,7 +47,7 @@ We primarily use three data sets for all our analysis. Namely:
 
 (Source: Kaggle Datasets)
 
-### Analysis of the Suicide Data 
+### Analysis of the Suicide Data
 
 ##### Metric 1: Per-Capita Income
 
@@ -159,3 +159,60 @@ boxplot(Happiness.Score ~ Continent, data = data.happiness, col = 'coral')
 ```
 
 This leads us to believe that there might be several regional and environmental factors that might also lead to a change in the happiness index and symmetrically the suicide rates of that particular region.
+
+```{r, echo=FALSE}
+upper <- c("Europe", "North America", "Asia", "Europe; Asia")
+top.happiness <- data.happiness[data.happiness$Continent %in% upper,]
+bot.happiness <- data.happiness[!data.happiness$Continent %in% upper,]
+top.score <- top.happiness$Happiness.Score
+bot.score <- bot.happiness$Happiness.Score
+m.top <- mean(top.score)
+m.bot <- mean(bot.score)
+n1 <- length(top.score)
+n2 <- length(bot.score)
+m <- m.top - m.bot
+s <- sqrt(1/n1 + 1/n2) * sqrt((sum((top.score - m.top)^2) + sum((bot.score - m.bot)^2))/(n1 + n2 - 2))
+paste0("Difference is m : ", m)
+paste0("Deviation : ", s)
+# Hypothesis : Mean of Upper Hemisphere <= Mean of Bottom Hemisphere
+p.zero <- pnorm(-m/s)
+paste0("P value : ", p.zero)
+```
+
+Since the p value is very low, the hypothesis is rejected. Therefore, Mean of Upper Hemisphere is very likely to be higher than the Mean of the Lower Hemisphere.
+
+##### Metric 4: Age
+
+The question that we want to explore in this section is, "Are people from various age groups more likely to commit suicides?"
+
+```{r, echo=FALSE}
+
+means.age.groups <- data.frame(`Age Groups` = unique(data.suicides$age))
+means <- numeric()
+sds <- numeric()
+counter <- 1
+for(year in unique(data.suicides$age)){
+  dat <- data.suicides$suicides.100k.pop[data.suicides$age == year]
+  plot(density(dat), main = year, xlab = "Suicides per 100k people")
+  means[counter] <- mean(dat)
+  sds[counter] <- sd(dat)
+  counter <- counter + 1
+}
+means.age.groups$`Mean Value` <- means
+means.age.groups$`Standard Deviation` <- sds
+```
+
+If we look at the mean values for all the different age groups we can derive the following conclusion:
+
+```{r}
+means.age.groups
+```
+
+### Final Data
+
+With that motivation set, we can look at our final merged data-set that helps us perform cross analysis of all of our parameters.
+
+```{r}
+data.final <- read.csv("../Happiness_Suicides.csv")
+head(data.final)
+```
