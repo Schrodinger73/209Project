@@ -1762,6 +1762,37 @@ derive the following conclusion:</p>
 {"columns":[{"label":["Age.Groups"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Mean Value"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Standard Deviation"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"15-24 years","2":"8.9471542","3":"9.578081"},{"1":"35-54 years","2":"14.9474408","3":"17.700421"},{"1":"75+ years","2":"23.9554093","3":"30.239147"},{"1":"25-34 years","2":"12.1868850","3":"14.107455"},{"1":"55-74 years","2":"16.1555795","3":"18.240465"},{"1":"5-14 years","2":"0.6200412","3":"1.017878"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
+<p>With increasing age you are increasingly likely to commit
+suicide.</p>
+</div>
+<div id="metric-5-generation" class="section level5">
+<h5>Metric 5: Generation</h5>
+<p>We can also try and analyse how prone each generation is to
+committing suicides.</p>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Generation"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Mean"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Standard Deviation"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Generation X","2":"10.5568742","3":"13.259527"},{"1":"Silent","2":"18.4188482","3":"23.216520"},{"1":"G.I. Generation","2":"23.9463776","3":"29.431211"},{"1":"Boomers","2":"14.7420942","3":"17.443697"},{"1":"Millenials","2":"5.3835969","3":"8.464176"},{"1":"Generation Z","2":"0.6422993","3":"1.044738"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>We can try and analyse a similar understanding in the happiness
+scores around the globe in these similar generations.</p>
+<ul>
+<li><p>Silent Generation – 1928-1945</p></li>
+<li><p>Boomers – 1946-1964</p></li>
+<li><p>Generation X – 1965 - 1980</p></li>
+<li><p>Millennials – 1981-1996</p></li>
+<li><p>Generation Z – 1997-2012</p></li>
+</ul>
+<p>We can extrapolate the Happiness Index by using the linear model that
+we derived in the earlier section to check whether a generation more
+likely to commit suicide was less happy on an average.</p>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Generation"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Mean "],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Standard Deviation"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Generation X","2":"6.796866","3":"3.905330"},{"1":"Silent","2":"7.234579","3":"4.244954"},{"1":"G.I. Generation","2":"5.648193","3":"2.376955"},{"1":"Boomers","2":"6.879968","3":"3.993915"},{"1":"Millenials","2":"7.556322","3":"4.510664"},{"1":"Generation Z","2":"9.006843","3":"5.379159"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>We observe that even in this form of clustering, the hypothesis is
+not followed.</p>
 </div>
 </div>
 <div id="final-data" class="section level3">
@@ -1775,6 +1806,9 @@ head(data.final)</code></pre>
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["X"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Happiness.Rank"],"name":[2],"type":["int"],"align":["right"]},{"label":["Happiness.Score"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Economy..GDP.per.Capita."],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Health..Life.Expectancy."],"name":[5],"type":["dbl"],"align":["right"]},{"label":["suicide.tot.normal"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Year"],"name":[7],"type":["int"],"align":["right"]},{"label":["Country"],"name":[8],"type":["chr"],"align":["left"]},{"label":["continent"],"name":[9],"type":["chr"],"align":["left"]}],"data":[{"1":"Argentina2015","2":"30","3":"6.574","4":"1.05351","5":"0.78723","6":"77.40627","7":"2015","8":"Argentina","9":"Europe","_rn_":"1"},{"1":"Armenia2015","2":"127","3":"4.350","4":"0.76821","5":"0.72990","6":"26.47268","7":"2015","8":"Armenia","9":"Europe","_rn_":"2"},{"1":"Armenia2016","2":"121","3":"4.360","4":"0.86086","5":"0.64083","6":"27.91628","7":"2016","8":"Armenia","9":"Europe","_rn_":"3"},{"1":"Australia2015","2":"10","3":"7.284","4":"1.33358","5":"0.93156","6":"136.10131","7":"2015","8":"Australia","9":"Europe","_rn_":"4"},{"1":"Austria2015","2":"13","3":"7.200","4":"1.33723","5":"0.89042","6":"152.20115","7":"2015","8":"Austria","9":"Europe","_rn_":"5"},{"1":"Austria2016","2":"12","3":"7.119","4":"1.45038","5":"0.80565","6":"160.46220","7":"2016","8":"Austria","9":"Asia","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
+<p>Since the p value is very low, the hypothesis is rejected. Therefore,
+Mean of Upper Hemisphere is very likely to be higher than the Mean of
+the Lower Hemisphere.</p>
 </div>
 
 
