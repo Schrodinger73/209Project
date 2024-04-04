@@ -159,8 +159,12 @@ boxplot(Happiness.Score ~ Continent, data = data.happiness, col = 'coral')
 ```
 
 This leads us to believe that there might be several regional and environmental factors that might also lead to a change in the happiness index and symmetrically the suicide rates of that particular region.
+<<<<<<< HEAD
 
 ```{r, echo=FALSE}
+=======
+```{r}
+>>>>>>> f4cd45151a01c2778e746e3e17e4e357eeae0ca8
 upper <- c("Europe", "North America", "Asia", "Europe; Asia")
 top.happiness <- data.happiness[data.happiness$Continent %in% upper,]
 bot.happiness <- data.happiness[!data.happiness$Continent %in% upper,]
@@ -178,6 +182,7 @@ paste0("Deviation : ", s)
 p.zero <- pnorm(-m/s)
 paste0("P value : ", p.zero)
 ```
+<<<<<<< HEAD
 
 Since the p value is very low, the hypothesis is rejected. Therefore, Mean of Upper Hemisphere is very likely to be higher than the Mean of the Lower Hemisphere.
 
@@ -216,3 +221,7 @@ With that motivation set, we can look at our final merged data-set that helps us
 data.final <- read.csv("../Happiness_Suicides.csv")
 head(data.final)
 ```
+=======
+Since the p value is very low, the hypothesis is rejected. Therefore, Mean of Upper Hemisphere is very likely to be higher than the Mean of the Lower Hemisphere.
+
+>>>>>>> f4cd45151a01c2778e746e3e17e4e357eeae0ca8
