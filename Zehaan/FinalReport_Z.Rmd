@@ -253,6 +253,7 @@ We can extrapolate the Happiness Index by using the linear model that we derived
 generations <- data.frame(Generation = unique(data.suicides$generation))
 means <- numeric()
 sds <- numeric()
+len <- numeric()
 counter <- 1
 
 coeff <- coefficients(lm(data.happiness$Happiness.Score~data.happiness$Economy..GDP.per.Capita.))
@@ -265,22 +266,63 @@ for(gen in unique(data.suicides$generation)){
   
   means[counter] <- mean(dat)
   sds[counter] <- sd(dat)
+  len[counter] <- length(dat)
   counter <- counter + 1
 }
 
 generations$`Mean ` <- means
 generations$`Standard Deviation` <- sds
+generations$`S.D. of the Mean` <- sds/sqrt(len)
 
 generations
 ```
 
 We observe that even in this form of clustering, the hypothesis is not followed.
 
+##### Metric 6: Continent
+
+```{r, echo = FALSE}
+suicide <- read.csv("suicide_cleaned.csv")
+
+library(dplyr)
+
+suicide_new <- suicide
+
+v <- NULL
+for (i in 1:length(suicide$continent)) {
+  v[i] <- paste0(suicide$continent[i], ".", suicide$year[i])
+}
+
+suicide$continent.year <- v
+# Plotting all the time series plots
+suicide.2 <- suicide %>% group_by(continent.year) %>% summarise(suicide.tot.normal = (sum(suicides_no)/sum(population))*1e6 , year = year[1], continent = continent[1])
+
+suicides <- split(suicide.2 , suicide.2$continent)
+
+#time <- ts(data = suicides$Albania$suicide.tot.normal , start = min(suicides$Albania$year) , end = max(suicides$Albania$year))
+time_series_plots <- c()
+
+## all ts plots are stored by country name in time_series_plots object, save with write() if needed
+
+for(i in unique(suicide$continent)){
+  
+  data <- suicides[[i]]
+  time <- ts(data = data$suicide.tot.normal , start = min(data$year) , end = max(data$year))
+  plot.ts(time , xlab = "Year", ylab = "Suicide Rate Scaled" , main = i)
+  plt <- recordPlot()
+  time_series_plots[[i]] <- plt
+  
+}
+#time_series_plots
+```
+
+In Europe, Australia and Africa, suicide rate decreases post 2000s, and in North America, South America, there is a slight increase. In Asia, it is very fluctuating.
+
 ### Final Data
 
 With that motivation set, we can look at our final merged data-set that helps us perform cross analysis of all of our parameters.
 
-```{r}
+```{r, echo = FALSE}
 data.final <- read.csv("../Happiness_Suicides.csv")
 head(data.final)
 ```
