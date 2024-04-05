@@ -68,3 +68,4 @@ df2 <- data.frame ("pred" = pred2 , "true" = test[,3])
 
 Model2_metrics <- c(MAPE(df2),MSE(df2))
 
+

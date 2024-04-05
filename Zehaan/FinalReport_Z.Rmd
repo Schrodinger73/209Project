@@ -284,5 +284,3 @@ With that motivation set, we can look at our final merged data-set that helps us
 data.final <- read.csv("../Happiness_Suicides.csv")
 head(data.final)
 ```
-
-
