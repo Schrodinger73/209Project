@@ -327,6 +327,8 @@ data.final <- read.csv("../Happiness_Suicides.csv")
 head(data.final)
 ```
 
+\<\<\<\<\<\<\< HEAD
+
 ```{r, echo = FALSE}
 library(ggplot2)
 ggplot(data = data.final, aes(x = Happiness.Score, y = suicide.tot.normal , col = continent)) + geom_point() + xlab("Happiness Score") + ylab("Suicide Rate Scale") + ggtitle("Happiness vs Suicide Rate")+theme(plot.title = element_text(hjust = 0.5))

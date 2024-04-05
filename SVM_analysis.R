@@ -68,6 +68,10 @@ df2 <- data.frame ("pred" = pred2 , "true" = test[,3])
 
 Model2_metrics <- c(MAPE(df2),MSE(df2))
 
+<<<<<<< HEAD
 print("Having proved that happiness and suicide rates and uncorrelated, we can go on to attempt to predict happiness values based purely on GDP and life expectancies. Obviously there are a lot more features, not present in this data , that might impact Happiness,but if the predicted values and fairly close enough to reported values, then this lends confidence to the model but also validates the analysis that it is independent of suicide rates")
 print(paste0("Mean Absolute Percentage error of the SVM model =" , Model_metrics[1]))
 print(paste0("Mean Squared Error of the SVM model =" , Model_metrics[2]))
+=======
+
+>>>>>>> 2d1549060b69c0ceded12cedf8e00c6aaeca047f
