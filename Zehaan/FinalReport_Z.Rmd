@@ -190,16 +190,19 @@ The question that we want to explore in this section is, "Are people from variou
 means.age.groups <- data.frame(`Age Groups` = unique(data.suicides$age))
 means <- numeric()
 sds <- numeric()
+len <- numeric()
 counter <- 1
 for(year in unique(data.suicides$age)){
   dat <- data.suicides$suicides.100k.pop[data.suicides$age == year]
   plot(density(dat), main = year, xlab = "Suicides per 100k people")
   means[counter] <- mean(dat)
   sds[counter] <- sd(dat)
+  len[counter] <- length(dat)
   counter <- counter + 1
 }
 means.age.groups$`Mean Value` <- means
 means.age.groups$`Standard Deviation` <- sds
+means.age.groups$`S.D. of the Mean` <- sds/sqrt(len)
 ```
 
 If we look at the mean values for all the different age groups we can derive the following conclusion:
@@ -219,17 +222,20 @@ We can also try and analyse how prone each generation is to committing suicides.
 generations <- data.frame(Generation = unique(data.suicides$generation))
 means <- numeric()
 sds <- numeric()
+len <- numeric()
 counter <- 1
 
 for(gen in unique(data.suicides$generation)){
   dat <- data.suicides$suicides.100k.pop[data.suicides$generation == gen]
   means[counter] <- mean(dat)
   sds[counter] <- sd(dat)
+  len[counter] <- length(dat)
   counter <- counter + 1
 }
 
 generations$Mean <- means
 generations$`Standard Deviation` <- sds
+generations$`S.D. of the Mean` <- sds/sqrt(len)
 
 generations
 ```
