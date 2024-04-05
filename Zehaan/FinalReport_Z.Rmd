@@ -1,10 +1,6 @@
 ---
 title: "MTH209PROJECT"
-<<<<<<< HEAD
 author: "Zehaan Naik, Aditya V, Viral Chitlangia, K. Sai. Nihal, Ch. Vinay Kumar"
-=======
-author: "Zehaan Naik, Aditya V, Viral Chitlangia, Ch. Vinay Kumar, K.Sai Nihal"
->>>>>>> 2a8e0033fe0274c8051c9beb779988c01b75c49e
 date: "2024-04-02"
 output:
   html_document:
