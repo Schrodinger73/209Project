@@ -1,10 +1,6 @@
-setwd("E:/IITK/MTH209/209Project")
-
-
-suicide <- read.csv("suicide.csv")
+suicide <- read.csv("suicide_cleaned.csv")
 
 library(dplyr)
-
 
 # Plotting all the time series plots
 suicide.2 <- suicide %>% group_by(country.year) %>% summarise(suicide.tot.normal = (sum(suicides_no)/sum(population))*1e6 , year = year[1], country = country[1])
