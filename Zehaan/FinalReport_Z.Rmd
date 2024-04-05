@@ -1,6 +1,6 @@
 ---
 title: "MTH209PROJECT"
-author: "Zehaan Naik, Aditya V, Viral Chitlangia"
+author: "Zehaan Naik, Aditya V, Viral Chitlangia, Ch. Vinay Kumar, K.Sai Nihal"
 date: "2024-04-02"
 output:
   html_document:
