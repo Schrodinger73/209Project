@@ -150,7 +150,7 @@ This loosely establishes the fact that financially well-off people tend to have 
 
 ##### Metric 3: Region
 
-If we look at the distribution of Happinness across various continents we come across the following plot:
+If we look at the distribution of "Happinness" across various continents we come across the following plot:
 
 489 \* GDP + 1.456 \* Life Expectancy\
 
@@ -159,6 +159,8 @@ boxplot(Happiness.Score ~ Continent, data = data.happiness, col = 'coral')
 ```
 
 This leads us to believe that there might be several regional and environmental factors that might also lead to a change in the happiness index and symmetrically the suicide rates of that particular region.
+
+We form the following test to check our intuition.
 
 ```{r, echo=FALSE}
 upper <- c("Europe", "North America", "Asia", "Europe; Asia")
@@ -211,7 +213,7 @@ If we look at the mean values for all the different age groups we can derive the
 means.age.groups
 ```
 
-With increasing age you are increasingly likely to commit suicide.
+From this data we can conclude that with increasing age you are increasingly likely to commit suicide.
 
 ##### Metric 5: Generation
 
@@ -252,7 +254,7 @@ We can try and analyse a similar understanding in the happiness scores around th
 
 -   Generation Z -- 1997-2012
 
-We can extrapolate the Happiness Index by using the linear model that we derived in the earlier section to check whether a generation more likely to commit suicide was less happy on an average.
+We can extrapolate the Happiness Index by using the linear model that we derived in the earlier section to check whether a generation more likely to commit suicide was less happy on an average. We use the per capita income to estimate the life expectancy to then carry out the following analysis.
 
 ```{r, echo=FALSE}
 
@@ -337,6 +339,8 @@ data.final <- read.csv("../Happiness_Suicides.csv")
 head(data.final)
 ```
 
+We then plot the happiness scores vs. suicide rates to arrive at some possible correlation between the two quantities.
+
 ```{r, echo = FALSE}
 library(ggplot2)
 ggplot(data = data.final, aes(x = Happiness.Score, y = suicide.tot.normal , col = continent)) + geom_point() + xlab("Happiness Score") + ylab("Suicide Rate Scale") + ggtitle("Happiness vs Suicide Rate")+theme(plot.title = element_text(hjust = 0.5))
@@ -346,7 +350,7 @@ ggplot(data = data.final, aes(x = Happiness.Score, y = suicide.tot.normal , col 
 print(paste0("Correlation - ", cor(data.final$Happiness.Score, data.final$suicide.tot.normal)))
 ```
 
-As can be seen, there is very little correlation between happiness index and suicide rate, which is a surprising result.
+As can be seen, there is very little correlation between happiness index and suicide rate, which is a surprising result. This goes completely against our original intuition that happy people don't commit suicides and vice-versa.
 
 ### SVM Analysis
 
@@ -407,3 +411,13 @@ print(paste0("Mean Squared Error of the SVM model with PCA = " , Model2_metrics[
 ```
 
 Thus the SVM model (without implementing PCA) gives us a MAPE of about 0.09 and a MSE of about 0.36. So the model is able to predict happiness scores pretty well, just purely based on GDP and life expectancy, lending credibility to the two metrics as a good indicator of quality of life and hence reported happiness of the people.
+
+### Conclusion
+
+In our above analysis we've tried to establish a correlation of Suicide rates with multiple intuitive parameters and failed to establish a clear relationship between any factor that felt logically linked to suicide rates.
+
+We also realized that Happiness score, a value derived from population survey as very clear correlation with the same factors (namely GDP-per-capita, Life Expectancy, etc.) Hence, it became possible for us to quantify happiness in some sense of the word.
+
+Finally, when we compared the trends between suicide rates and happiness, we are clearly able to establish the fact that suicides are more or less independent of how happy a certain group of people are.
+
+Hence, the idea that "Happy people do not commit suicides and vice-versa" is not substantiated by real world data.
