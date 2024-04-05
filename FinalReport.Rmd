@@ -1,0 +1,427 @@
+---
+title: "MTH209PROJECT"
+author: "Zehaan Naik, Aditya V, Viral Chitlangia, K. Sai. Nihal, Ch. Vinay Kumar"
+date: "2024-04-02"
+output:
+  html_document:
+    df_print: paged
+---
+
+### Introduction
+
+The will to end one's life is commonly believed to stem from various factors such as financial stability, health issues, physical environment, etc. One can easily find multiple data sets on the internet that accurately report the number of suicide cases reported for various prominent cities around the globe and their correlation with numerous factors such as GDP per capita and Life expectancy. These observations give us an objective understanding of these intuitive relations we wish to explore.
+
+The happiness index measures content among the residents of various world countries. The happiness scores are calculated based on a population survey. They are expected to be a function of multiple parameters such as average life expectancy, family income, family size, etc. Various agencies differently model this index, but it heuristically represents the general content with life that people feel in places around the world.
+
+### Aim
+
+With an intuitively expected relationship between suicides and happiness, this report aims to analyze and check this intuition based on objective metrics and actual world observations.
+
+### Data Analysis
+
+We primarily use three data sets for all our analysis. Namely:
+
+-   [**Suicide Rates for Prominent Countries (1990-2015)**](https://www.kaggle.com/datasets/ahmadalqawasmeh/suicide-data)
+
+    ```{r, echo=FALSE}
+
+    data.suicides <- read.csv("suicide_cleaned.csv")
+    head(data.suicides)
+    ```
+
+-   [**2024 Urban Bliss Index (2024-2027)**](https://www.kaggle.com/datasets/willianoliveiragibin/2024-urban-bliss-index)
+
+    Note: This is a predictive data set that uses different parameters to predict the happiness values for various regions for the upcoming years. We use this data to understand how happiness scores are modeled and do not use this data in our analysis.
+
+    ```{r, echo=FALSE}
+
+    data.urban.bliss <- read.csv("- train US new.csv")
+    head(data.urban.bliss)
+    ```
+
+-   [**World Happiness Report**](https://www.kaggle.com/datasets/unsdsn/world-happiness)
+
+    ```{r, echo=FALSE}
+
+    data.happiness <- read.csv("Happiness_cleaned.csv")
+    head(data.happiness)
+    ```
+
+(Source: Kaggle Datasets)
+
+### Analysis of the Suicide Data
+
+##### Metric 1: Per-Capita Income
+
+For various continents, let's analyse the impact of GDP per capita on the suicide rates of the country. We do this to substantiate our intuition that financial stability in a region has a direct correlation with the number of people committing suicides in that region.
+
+```{r, echo=FALSE}
+
+continents <- unique(data.suicides$continent)
+for(cont in continents){
+  dat <- data.suicides[which(data.suicides$continent == cont),]
+  gdps <- unique(dat$gdp_per_capita)
+  gdps <- sort(gdps)
+  suicides <- numeric(length = length(gdps))
+  counter <- 1
+  
+  for(i in gdps){
+    suicides[counter] <- sum(dat$suicides.100k.pop[which(dat$gdp_per_capita == i)])
+    counter <- counter + 1
+  }
+  
+  plot(gdps,suicides,'l', xlab = "GDP per capita", ylab = "No. of Suicides", main = paste("GDP vs. Suicide Rate for", cont))
+  }
+```
+
+Result: We observe that the GDP per capita has no correlation with the number of suicides per capita.
+
+Remark: Though financial stability on an individual level cannot simply be measured by the per-capita income of a particular region, it still gives us a large scale understanding of the financial states of the residents of a particular region. With a large enough data-set, we can, hence, hope to gauge the general effect of income on the suicide rates.
+
+Let's observe if the Happiness Index has some connection with financial stability or whether it shows a similar lack of trend as suicide rates.
+
+From our previous analysis, if we want to compare the trend in GDP per capita vs The happiness index, we observe the following plot.
+
+```{r, echo=FALSE}
+
+dat.happy <- data.happiness[which(data.happiness$Continent == "Europe"),]
+plot(dat.happy$Economy..GDP.per.Capita., dat.happy$Happiness.Score,
+     xlab = "GDP per Capita",
+     ylab = "Happiness Score",
+     main = "Europe")
+abline(lm(dat.happy$Happiness.Score~dat.happy$Economy..GDP.per.Capita.),col = "red")
+legend("bottomright", "Line of Best Fit", fill = "red")
+```
+
+We observe that the happiness index is strongly correlated with the GDP per capita as opposed to the trend observed in the suicide rates. We can further substantiate the result by testing this on various continents:
+
+```{r, echo=FALSE}
+
+continents <- unique(data.suicides$continent)
+for(cont in continents){
+  dat.happy <- data.happiness[which(data.happiness$Continent == cont),]
+  plot(dat.happy$Economy..GDP.per.Capita., dat.happy$Happiness.Score,
+       xlab = "GDP per Capita",
+       ylab = "Happiness Score",
+       main = cont)
+  abline(lm(dat.happy$Happiness.Score~dat.happy$Economy..GDP.per.Capita.),col = "red")
+  legend("bottomright", "Line of Best Fit", fill = "red")
+}
+```
+
+##### Metric 2: Health Conditions
+
+To understand the impact of Health conditions and life expectancy on suicide rates, we can, firstly, establish the claim that GDP per capita and Life expectancy are highly correlated.
+
+```{r, echo=FALSE}
+
+dat.happy <- data.happiness[which(data.happiness$Continent == "Europe"),]
+plot(dat.happy$Economy..GDP.per.Capita., dat.happy$Health..Life.Expectancy.,
+     xlab = "GDP per Capita",
+     ylab = "Health Index",
+     main = "Europe")
+abline(lm(dat.happy$Health..Life.Expectancy.~dat.happy$Economy..GDP.per.Capita.),col = "red")
+legend("bottomright", "Line of Best Fit", fill = "red")
+```
+
+To further substantiate the fact that we have a strong correlation between Health Index and GPD per Capita, we can look at the correlation between the fitted values and the observed values.
+
+The correlation between Life Expectancy and GPD per Capita is :
+
+```{r, echo=FALSE}
+cor(dat.happy$Health..Life.Expectancy.,fitted(lm(dat.happy$Health..Life.Expectancy.~dat.happy$Economy..GDP.per.Capita.))) # multiple correlation
+```
+
+As expected the correlation values are really high.
+
+```{r, echo=FALSE}
+
+Continents <- unique(data.suicides$continent)
+corr.values <- data.frame(Continents)
+values <- numeric(length = length(Continents))
+counter = 1
+for(cont in continents){
+  dat.happy <- data.happiness[which(data.happiness$Continent == cont),]
+  values[counter] <- (cor(dat.happy$Health..Life.Expectancy.,fitted(lm(dat.happy$Health..Life.Expectancy.~dat.happy$Economy..GDP.per.Capita.)))
+  )
+  counter <- counter + 1
+}
+corr.values$`Corr Values`<-values
+corr.values
+```
+
+This loosely establishes the fact that financially well-off people tend to have lesser health issues and consequently higher life expectancy. We, however, do not observe such a trend between suicide rates and per-capita income.
+
+##### Metric 3: Region
+
+If we look at the distribution of "Happinness" across various continents we come across the following plot:
+
+489 \* GDP + 1.456 \* Life Expectancy\
+
+```{r, echo=FALSE}
+boxplot(Happiness.Score ~ Continent, data = data.happiness, col = 'coral')
+```
+
+This leads us to believe that there might be several regional and environmental factors that might also lead to a change in the happiness index and symmetrically the suicide rates of that particular region.
+
+We form the following test to check our intuition.
+
+```{r, echo=FALSE}
+upper <- c("Europe", "North America", "Asia", "Europe; Asia")
+top.happiness <- data.happiness[data.happiness$Continent %in% upper,]
+bot.happiness <- data.happiness[!data.happiness$Continent %in% upper,]
+top.score <- top.happiness$Happiness.Score
+bot.score <- bot.happiness$Happiness.Score
+m.top <- mean(top.score)
+m.bot <- mean(bot.score)
+n1 <- length(top.score)
+n2 <- length(bot.score)
+m <- m.top - m.bot
+s <- sqrt(1/n1 + 1/n2) * sqrt((sum((top.score - m.top)^2) + sum((bot.score - m.bot)^2))/(n1 + n2 - 2))
+paste0("Difference in Mean of happiness index in Upper Hemisphere to Lower Hemisphere : ", m)
+paste0("Deviation in the mean difference : ", s)
+paste0("Hypothesis : Mean of Upper Hemisphere <= Mean of Bottom Hemisphere")
+p.zero <- pnorm(-m/s)
+paste0("P value : ", p.zero)
+```
+
+Since the p value is very low, the hypothesis is rejected. Therefore, Mean of Upper Hemisphere is very likely to be higher than the Mean of the Lower Hemisphere.
+
+##### Metric 4: Age
+
+The question that we want to explore in this section is, "Are people from various age groups more likely to commit suicides?"
+
+```{r, echo=FALSE}
+
+means.age.groups <- data.frame(`Age Groups` = unique(data.suicides$age))
+means <- numeric()
+sds <- numeric()
+len <- numeric()
+counter <- 1
+for(year in unique(data.suicides$age)){
+  dat <- data.suicides$suicides.100k.pop[data.suicides$age == year]
+  plot(density(dat), main = year, xlab = "Suicides per 100k people")
+  means[counter] <- mean(dat)
+  sds[counter] <- sd(dat)
+  len[counter] <- length(dat)
+  counter <- counter + 1
+}
+means.age.groups$`Mean Value` <- means
+means.age.groups$`Standard Deviation` <- sds
+means.age.groups$`S.D. of the Mean` <- sds/sqrt(len)
+```
+
+If we look at the mean values for all the different age groups we can derive the following conclusion:
+
+```{r, echo = FALSE}
+means.age.groups
+```
+
+From this data we can conclude that with increasing age one is increasingly likely to commit suicide.
+
+##### Metric 5: Generation
+
+We can also try and analyse how prone each generation is to committing suicides.
+
+```{r, echo=FALSE}
+
+generations <- data.frame(Generation = unique(data.suicides$generation))
+means <- numeric()
+sds <- numeric()
+len <- numeric()
+counter <- 1
+
+for(gen in unique(data.suicides$generation)){
+  dat <- data.suicides$suicides.100k.pop[data.suicides$generation == gen]
+  means[counter] <- mean(dat)
+  sds[counter] <- sd(dat)
+  len[counter] <- length(dat)
+  counter <- counter + 1
+}
+
+generations$Mean <- means
+generations$`Standard Deviation` <- sds
+generations$`S.D. of the Mean` <- sds/sqrt(len)
+
+generations
+```
+
+We can try and analyse a similar understanding in the happiness scores around the globe in these similar generations.
+
+-   Silent Generation -- 1928-1945
+
+-   Boomers -- 1946-1964
+
+-   Generation X -- 1965 - 1980
+
+-   Millennials -- 1981-1996
+
+-   Generation Z -- 1997-2012
+
+We can extrapolate the Happiness Index by using the linear model that we derived in the earlier section to check whether a generation more likely to commit suicide was less happy on an average. We use the per capita income to estimate the life expectancy to then carry out the following analysis.
+
+```{r, echo=FALSE}
+
+generations <- data.frame(Generation = unique(data.suicides$generation))
+means <- numeric()
+sds <- numeric()
+len <- numeric()
+counter <- 1
+
+coeff <- coefficients(lm(data.happiness$Happiness.Score~data.happiness$Economy..GDP.per.Capita.))
+coeff <- as.numeric(coeff)
+
+for(gen in unique(data.suicides$generation)){
+  dat <- data.suicides$gdp_per_capita[data.suicides$generation == gen]
+  dat <- dat / 1e4
+  dat <- coeff[1] + coeff[2]*dat
+  
+  means[counter] <- mean(dat)
+  sds[counter] <- sd(dat)
+  len[counter] <- length(dat)
+  counter <- counter + 1
+}
+
+generations$`Mean ` <- means
+generations$`Standard Deviation` <- sds
+generations$`S.D. of the Mean` <- sds/sqrt(len)
+
+generations
+```
+
+We observe that even in this form of clustering, the hypothesis is not followed.
+
+##### Metric 6: Continent
+
+With the following plots we aim to understand the growth or dip in suicide rates for various continents over time. We do this to try and arrive at a possible correlation between suicide rates, time and region.
+
+```{r, echo = FALSE}
+suicide <- read.csv("suicide_cleaned.csv")
+
+library(dplyr)
+
+suicide_new <- suicide
+
+v <- NULL
+for (i in 1:length(suicide$continent)) {
+  v[i] <- paste0(suicide$continent[i], ".", suicide$year[i])
+}
+
+suicide$continent.year <- v
+# Plotting all the time series plots
+suicide.2 <- suicide %>% group_by(continent.year) %>% summarise(suicide.tot.normal = (sum(suicides_no)/sum(population))*1e6 , year = year[1], continent = continent[1])
+
+suicides <- split(suicide.2 , suicide.2$continent)
+
+#time <- ts(data = suicides$Albania$suicide.tot.normal , start = min(suicides$Albania$year) , end = max(suicides$Albania$year))
+time_series_plots <- c()
+
+## all ts plots are stored by country name in time_series_plots object, save with write() if needed
+
+for(i in unique(suicide$continent)){
+  
+  data <- suicides[[i]]
+  time <- ts(data = data$suicide.tot.normal , start = min(data$year) , end = max(data$year))
+  plot.ts(time , xlab = "Year", ylab = "Suicide Rate Scaled" , main = i)
+  plt <- recordPlot()
+  time_series_plots[[i]] <- plt
+  
+}
+#time_series_plots
+```
+
+In Europe, Australia and Africa, suicide rate decreases post 2000s, and in North America, South America, there is a slight increase. In Asia, it is very fluctuating.
+
+Overall we still aren't able to correlate suicides with any parameter.
+
+### Final Data
+
+With that motivation set, we can look at our final merged data-set that helps us perform cross analysis of all of our parameters.
+
+```{r, echo = FALSE}
+data.final <- read.csv("Happiness_Suicides.csv")
+head(data.final)
+```
+
+We then plot the happiness scores vs. suicide rates to arrive at some possible correlation between the two quantities.
+
+```{r, echo = FALSE}
+library(ggplot2)
+ggplot(data = data.final, aes(x = Happiness.Score, y = suicide.tot.normal , col = continent)) + geom_point() + xlab("Happiness Score") + ylab("Suicide Rate Scale") + ggtitle("Happiness vs Suicide Rate")+theme(plot.title = element_text(hjust = 0.5))
+```
+
+```{r, echo=FALSE}
+print(paste0("Correlation - ", cor(data.final$Happiness.Score, data.final$suicide.tot.normal)))
+```
+
+As can be seen, there is very little correlation between happiness index and suicide rate, which is a surprising result. This goes completely against our original intuition that happy people don't commit suicides and vice-versa.
+
+### SVM Analysis
+
+Having proved that happiness and suicide rates are uncorrelated, we can go on to attempt to predict happiness values based purely on GDP and life expectancies. Obviously there are a lot more features, not present in this data , that might impact Happiness, but if the predicted values are fairly close to reported values, then this lends confidence to the model but also validates the analysis that it is independent of suicide rates.
+
+```{r, echo = FALSE}
+library(e1071)
+#reading data
+happiness <- read.csv("Happiness_cleaned.csv")
+#train-test split
+smp_size <- floor(0.75 * nrow(happiness))
+set.seed(123)
+train_ind <- sample(seq_len(nrow(happiness)), size = smp_size)
+train <- happiness[train_ind, ]
+test <- happiness[-train_ind, ]
+#training model without PCA
+model <- svm(Happiness.Score ~ . , data = train[,c(5,6,7)])
+pred <- predict(model , test[,c(6,7)])
+df <- data.frame ("pred" = pred , "true" = test[,5])
+MAPE <- function(df){
+  
+  foo <- abs(df[,2]-df[,1])
+  foo <- foo/df[,2]
+  
+  val <- (sum(foo)/nrow(df))*100
+  
+  return(val)
+}
+MSE <- function(df){
+  
+  foo <- (df[,2]-df[,1])^2
+  
+  return(sum(foo)/nrow(df))
+  
+}
+Model_metrics <- c(MAPE(df),MSE(df))
+#Training model with PCA
+happiness2 <- happiness[,c(5,6,7)]
+pcs <- prcomp(happiness2[,c(2,3)])
+data <- pcs$x
+smp_size <- floor(0.75 * nrow(data))
+#split
+set.seed(123)
+dat <- cbind(data , happiness2$Happiness.Score)
+train_ind <- sample(seq_len(nrow(dat)), size = smp_size)
+train <- dat[train_ind, ]
+test <- dat[-train_ind, ]
+#SVM
+model2 <- svm(x = train[,c(1,2)] , y = train[,3])
+pred2 <- predict(model2 , test[,c(1,2)])
+df2 <- data.frame ("pred" = pred2 , "true" = test[,3])
+Model2_metrics <- c(MAPE(df2),MSE(df2))
+print(paste0("Mean Absolute Percentage error of the SVM model = " , Model_metrics[1]))
+print(paste0("Mean Squared Error of the SVM model = " , Model_metrics[2]))
+print(paste0("Mean Absolute Percentage error of the SVM model with PCA = " , Model2_metrics[1]))
+print(paste0("Mean Squared Error of the SVM model with PCA = " , Model2_metrics[2]))
+
+```
+
+Thus the SVM model (without implementing PCA) gives us a MAPE of about 0.09 and a MSE of about 0.36. So the model is able to predict happiness scores pretty well, just purely based on GDP and life expectancy, lending credibility to the two metrics as a good indicator of quality of life and hence reported happiness of the people.
+
+### Conclusion
+
+In our above analysis we've tried to establish a correlation of Suicide rates with multiple intuitive parameters and failed to establish a clear relationship between any factor that felt logically linked to suicide rates.
+
+We also realized that Happiness score, a value derived from population survey as very clear correlation with the same factors (namely GDP-per-capita, Life Expectancy, etc.) Hence, it became possible for us to quantify happiness in some sense of the word.
+
+Finally, when we compared the trends between suicide rates and happiness, we are clearly able to establish the fact that suicides are more or less independent of how happy a certain group of people are.
+
+Hence, the idea that "Happy people do not commit suicides and vice-versa" is not substantiated by real world data.
