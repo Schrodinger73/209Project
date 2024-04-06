@@ -154,9 +154,7 @@ This loosely establishes the fact that financially well-off people tend to have 
 
 ##### Metric 3: Region
 
-If we look at the distribution of "Happinness" across various continents we come across the following plot:
-
-489 \* GDP + 1.456 \* Life Expectancy\
+If we look at the distribution of "Happinness" across various continents we come across the following plot:\
 
 ```{r, echo=FALSE}
 boxplot(Happiness.Score ~ Continent, data = data.happiness, col = 'coral')
